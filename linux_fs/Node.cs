@@ -2,12 +2,12 @@ namespace linux_fs;
 
 public class Node
 {
-    public string? Name;
+    public string? Data;
     public Node? Parent;
     public List<Node>? Children;
     
-    public Node(string? name = null)
+    public Node(string? data = null)
     {
-        Name = name;
+        Data = data;
     }
 }
