@@ -1,13 +1,20 @@
 class FileSystem {
     LinkedListNode<TreeSystem> tree;
+    TreeSystem CWD;
 
     public FileSystem() {
         TreeSystem root = new TreeSystem("ras@m4tree:~$", NodeType.Folder);
         tree = new LinkedListNode<TreeSystem>(root);
+        CWD = root;
     }
 
     /*  touch <filename>
-        Perintah ini digunakan untuk membuat file kosong. Parameter yang diberikan adalah nama file. Jika disertakan full/relative path, maka file tersebut akan dibuat pada path yang ditentukan. Dalam satu direktori, bisa dipastikan tidak boleh ada nama file yang sama.
+        Perintah ini digunakan untuk membuat file kosong. 
+        Parameter yang diberikan adalah nama file. 
+        Jika disertakan full/relative path, maka file 
+        tersebut akan dibuat pada path yang ditentukan. 
+        Dalam satu direktori, bisa dipastikan tidak
+        boleh ada nama file yang sama.
         Contoh:
         $ touch myFile.cs
         $ touch /home/user/Documents/myCode.php
