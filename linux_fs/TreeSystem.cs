@@ -1,3 +1,4 @@
+// Komentar
 public class TreeSystem {
     public String data;
     public NodeType type;
