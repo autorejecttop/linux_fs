@@ -1,9 +1,9 @@
 class FileSystem {
-    const String root = "ras@m4tree:~$ ";
-    String cwd;
+    LinkedListNode<TreeSystem> tree;
 
     public FileSystem() {
-        cwd = "ras@m4tree:~$ ";
+        TreeSystem root = new TreeSystem("ras@m4tree:~$", NodeType.Folder);
+        tree = new LinkedListNode<TreeSystem>(root);
     }
 
     /*  touch <filename>
