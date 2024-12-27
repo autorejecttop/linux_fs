@@ -1,13 +1,14 @@
 // Komentar
 public class TreeSystem {
     public String data;
-    public NodeType type;
-    public LinkedListNode<TreeSystem>? children;
+    public Type type;
+    public List<TreeSystem> children;
 
-    public TreeSystem(String data, NodeType type) {
+    public TreeSystem(String data, Type type) {
         this.data = data;
         this.type = type;
+        this.children = [];
     }
 }
 
-public enum NodeType { File, Folder }
+public enum Type { File, Folder }
