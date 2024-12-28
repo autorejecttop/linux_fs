@@ -1,21 +1,46 @@
 class FileSystem {
-    const String root = "ras@m4tree:~$ ";
-    String cwd;
+    TreeSystem tree;
+    TreeSystem CWD;
 
     public FileSystem() {
-        cwd = "ras@m4tree:~$ ";
+        TreeSystem root = new TreeSystem("ras@m4tree:~$", Type.Folder);
+        tree = root;
+        CWD = root;
     }
 
     /*  touch <filename>
-        Perintah ini digunakan untuk membuat file kosong. Parameter yang diberikan adalah nama file. Jika disertakan full/relative path, maka file tersebut akan dibuat pada path yang ditentukan. Dalam satu direktori, bisa dipastikan tidak boleh ada nama file yang sama.
+        Perintah ini digunakan untuk membuat file kosong. 
+        Parameter yang diberikan adalah nama file. 
+        Jika disertakan full/relative path, maka file 
+        tersebut akan dibuat pada path yang ditentukan. 
+        Dalam satu direktori, bisa dipastikan tidak
+        boleh ada nama file yang sama.
         Contoh:
         $ touch myFile.cs
         $ touch /home/user/Documents/myCode.php
     */
-    public void touch() { }
+    public void touch(String value) {
+        String arg = value.Split(' ')[1];
+
+        if (arg.ElementAt(0).Equals("/")) {
+            String[] paths = arg.Split("/");
+            if (paths.Length < 1) {
+                Console.WriteLine($"{arg}: Command invalid.");
+            } else { }
+        } else {
+            TreeSystem newFile = new TreeSystem(arg, Type.File);
+            CWD.children.Add(newFile);
+        }
+    }
 
     /*  mkdir <directoryname>
-        Perintah ini digunakan untuk membuat direktori (folder) baru. Parameter yang diberikan adalah nama direktori (folder). Jika disertakan full/relative path, maka file tersebut akan dibuat pada path yang ditentukan. Dalam satu direktori, bisa dipastikan tidak boleh ada nama direktori yang sama.
+        Perintah ini digunakan untuk membuat direktori 
+        (folder) baru. Parameter yang diberikan adalah 
+        nama direktori (folder). Jika disertakan 
+        full/relative path, maka file tersebut akan 
+        dibuat pada path yang ditentukan. Dalam satu 
+        direktori, bisa dipastikan tidak boleh ada 
+        nama direktori yang sama.
         Contoh:
         $ mkdir MyCourse
         $ mkdir /home/user/Documents/MyCourse
