@@ -11,13 +11,22 @@ public class TreeSystem {
         this.children = [];
     }
 
-    private TreeSystem? GetTree(String name, Type type) {
+    public TreeSystem? GetTree(String name, Type type) {
         TreeSystem? result = null;
+
         foreach (TreeSystem tree in children) {
             if (tree.name.Equals(name) && tree.type.Equals(type)) {
                 result = tree;
+                break;
             }
         }
+        if (result == null) {
+            if (type.Equals(Type.File))
+                ERRMSG.FILE_NOT_FOUND(name);
+            else
+                ERRMSG.DIR_NOT_FOUND(name);
+        }
+
         return result;
     }
 
@@ -32,22 +41,16 @@ public class TreeSystem {
         return result;
     }
 
-    public TreeSystem? GoToTree(TreeSystem root, String arg) {
+    public TreeSystem? GoToTree(TreeSystem root, String[] paths) {
         String CSD = "";
         TreeSystem? result = root;
-        String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-        if (paths.Length <= 1) {
-            ERRMSG.INV_COMMAND(arg);
-        } else {
-            paths = paths.Take(paths.Length - 1).ToArray();
-            foreach (String path in paths) {
-                CSD += $"/{path}";
-                result = result.GetTree(path, Type.Directory);
-                if (result == null) {
-                    ERRMSG.DIR_NOT_FOUND(CSD);
-                    break;
-                }
+        foreach (String path in paths) {
+            CSD += $"/{path}";
+            result = result.GetTree(path, Type.Directory);
+            if (result == null) {
+                ERRMSG.DIR_NOT_FOUND(CSD);
+                break;
             }
         }
 
