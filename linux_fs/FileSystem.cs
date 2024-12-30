@@ -21,21 +21,20 @@ class FileSystem {
     public void touch(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
             String fileName = arg.Split('/').Last();
-            TreeSystem? targetTree = root.GoToTree(root, fileName);
-            if (targetTree != null) {
-                if (targetTree.IsExist(fileName, Type.File)) {
-                    ERRMSG.FILE_ALR_EXIST(fileName);
-                } else {
-                    TreeSystem newFile = new TreeSystem(fileName, Type.File, targetTree);
-                    targetTree.children.Add(newFile);
-                }
+            TreeSystem? target = root.GoToTree(root, fileName);
+            if (target != null) {
+                touch(target, fileName);
             }
         } else {
-            if (CWD.IsExist(arg, Type.File)) {
-                ERRMSG.FILE_ALR_EXIST(arg);
+            touch(CWD, arg);
+        }
+
+        static void touch(TreeSystem target, String filename) {
+            if (target.IsExist(filename, Type.File)) {
+                ERRMSG.FILE_ALR_EXIST(filename);
             } else {
-                TreeSystem newFile = new TreeSystem(arg, Type.File, CWD);
-                CWD.children.Add(newFile);
+                TreeSystem newFile = new TreeSystem(filename, Type.File, target);
+                target.children.Add(newFile);
             }
         }
     }
