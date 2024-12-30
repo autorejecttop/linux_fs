@@ -130,7 +130,27 @@ class FileSystem {
         Contoh:
         $ mv /home/user/temp/presentation.pptx /home/user/MyCourse
     */
-    public void mv() {
+    public void Mv(string sourcePath, string destinationPath) {
+        string[] sourcePathFilenames = sourcePath.Split("/")[1..];
+
+        Tree tempSource = Root;
+        foreach (string filename in sourcePathFilenames) {
+            if (tempSource.Children == null || tempSource.Children.Count == 0)
+                throw new Exception($"{sourcePath}: No such file or directory");
+
+            bool isFound = false;
+            foreach (Tree child in tempSource.Children) {
+                if (child.Name != filename)
+                    continue;
+
+                tempSource = child;
+                isFound = true;
+                break;
+            }
+
+            if (!isFound)
+                throw new Exception($"{sourcePath}: No such file or directory");
+        }
     }
 
     /*  cp <source-path> <destination-path>
