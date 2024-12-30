@@ -19,7 +19,11 @@ class FileSystem {
         $ touch myFile.cs
         $ touch /home/user/Documents/myCode.php
     */
-    public void touch(String value) {
+    public void Touch(String newFileName) {
+        Tree newFile = new Tree(newFileName);
+
+        newFile.Parent = CurrentDirectory;
+        CurrentDirectory.Children.Add(newFile);
     }
 
     /*  mkdir <directoryname>
