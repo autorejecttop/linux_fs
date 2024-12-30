@@ -19,7 +19,7 @@ class FileSystem {
         $ touch myFile.cs
         $ touch /home/user/Documents/myCode.php
     */
-    public void Touch(String newFileName) {
+    public void Touch(string newFileName) {
         Tree newFile = new Tree(newFileName);
 
         newFile.Parent = CurrentDirectory;
@@ -38,7 +38,7 @@ class FileSystem {
         $ mkdir MyCourse
         $ mkdir /home/user/Documents/MyCourse
     */
-    public void Mkdir(String newDirectoryName) {
+    public void Mkdir(string newDirectoryName) {
         Tree newDirectory = new Tree(newDirectoryName);
 
         newDirectory.Children = new List<Tree>();
@@ -52,7 +52,19 @@ class FileSystem {
         $ cd /home/user	→ Berpindah ke direktori /home/user
         $ cd ..	→ Berpindah ke direktori parent
     */
-    public void cd() {
+    public void Cd(string directoryName) {
+        foreach (Tree child in CurrentDirectory.Children) {
+            if (child.Name != directoryName)
+                continue;
+
+            if (child.Children == null)
+                throw new Exception($"{directoryName}: Not a directory");
+
+            CurrentDirectory = child;
+            return;
+        }
+
+        throw new Exception($"{directoryName}: No such file or directory");
     }
 
     /*  ls [<path>]
@@ -61,7 +73,26 @@ class FileSystem {
         $ ls MyCourse
         $ ls
     */
-    public void ls() {
+    public void Ls(string? directoryName = null) {
+        if (directoryName == null)
+            foreach (Tree child in CurrentDirectory.Children)
+                Console.WriteLine(child.Name);
+
+        foreach (Tree child in CurrentDirectory.Children) {
+            if (child.Name != directoryName)
+                continue;
+
+            if (child.Children == null) {
+                Console.WriteLine(child.Name);
+                return;
+            }
+
+            foreach (Tree grandChild in child.Children) {
+                Console.WriteLine(grandChild.Name);
+            }
+        }
+
+        throw new Exception($"{directoryName}: No such file or directory");
     }
 
     /*  rm <path-to-file/directory>
@@ -70,7 +101,16 @@ class FileSystem {
         $ rm /home/user/temp
         $ rm /home/user/MyCourse/presentation.pptx
     */
-    public void rm() {
+    public void Rm(string fileName) {
+        foreach (Tree child in CurrentDirectory.Children) {
+            if (child.Name != fileName)
+                continue;
+
+            CurrentDirectory.Children.Remove(child);
+            return;
+        }
+
+        throw new Exception($"{fileName}: No such file or directory");
     }
 
     /*  mv <source-path> <destination-path>
