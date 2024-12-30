@@ -182,29 +182,77 @@ class FileSystem {
     }
 
     /*  mv <source-path> <destination-path>
-        Perintah ini digunakan untuk memindahkan file/direktori dari direktori asal ke direktori tujuan. Dimungkinkan juga untuk memindah direktori apabila source-path merupakan direktori.
+        Perintah ini digunakan untuk memindahkan 
+        file/direktori dari direktori asal ke direktori 
+        tujuan. Dimungkinkan juga untuk memindah 
+        direktori apabila source-path merupakan direktori.
         Contoh:
         $ mv /home/user/temp/presentation.pptx /home/user/MyCourse
     */
-    public void mv() { }
+    public void mv(String arg, bool delete = true) {
+        String[] paths = arg.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        TreeSystem? file_src = null;
+        TreeSystem? dir_src = null;
+        TreeSystem? dst = null;
+
+        if (paths[0].ElementAt(0).Equals('/')) {
+            String[] src_paths = paths[0].Split('/', StringSplitOptions.RemoveEmptyEntries);
+            file_src = root.GoToTree(root, src_paths, false);
+            dir_src = root.GoToTree(root, src_paths, false);
+        } else {
+            file_src = CWD.GetTree(paths[0], Type.File, false);
+            dir_src = CWD.GetTree(paths[0], Type.Directory, false);
+        }
+
+        if (paths[1].ElementAt(0).Equals('/')) {
+            String[] dst_paths = paths[1].Split('/', StringSplitOptions.RemoveEmptyEntries);
+            dst = root.GoToTree(root, dst_paths, false);
+        } else {
+            dst = CWD.GetTree(paths[1], Type.Directory, false);
+        }
+
+        if ((file_src != null || dir_src != null) && dst != null) {
+            TreeSystem src = file_src ?? dir_src;
+
+            if (delete) rm(paths[0]);
+            src.parent = dst;
+            dst.children.Add(src);
+        } else if (file_src == null && dir_src == null) {
+            ERRMSG.FILE_DIR_NOT_FOUND(paths[0]);
+        } else if (dst == null) {
+            ERRMSG.DIR_NOT_FOUND(paths[1]);
+        }
+    }
 
     /*  cp <source-path> <destination-path>
-        Perintah ini digunakan untuk menyalin (copy) file/direktori dari direktori asal ke direktori tujuan. Apabila yang disalin adalah direktori, maka direktori tersebut beserta seluruh isinya akan ikut tersalin.
+        Perintah ini digunakan untuk menyalin (copy) file/direktori 
+        dari direktori asal ke direktori tujuan. Apabila yang 
+        disalin adalah direktori, maka direktori tersebut beserta 
+        seluruh isinya akan ikut tersalin.
         Contoh:
         $ cp /home/user/temp/presentation.pptx /home/user/MyCourse
     */
-    public void cp() { }
+    public void cp(String arg) {
+        mv(arg, false);
+    }
 
     /*  pwd
-        Perintah ini digunakan untuk menampilkan present working directory atau posisi direktori aktif saat ini.
+        Perintah ini digunakan untuk menampilkan 
+        present working directory atau posisi direktori aktif saat ini.
         Contoh:
         $ pwd
         /home/user/MyCourse -> ini adalah contoh output perintah
     */
-    public void pwd() { }
+    public void pwd() {
+        Console.WriteLine($"{cwdPath()}");
+    }
 
     /*  locate <start-path> <keyword>
-        Perintah ini digunakan untuk mencari file atau directory dari awal posisi direktori sesuai parameter start-path yang diberikan hingga keseluruhan direktori di bawahnya. Hasil yang ditampilkan adalah semua file atau direktori yang memiliki nama sesuai keyword yang diberikan.
+        Perintah ini digunakan untuk mencari file atau 
+        directory dari awal posisi direktori sesuai parameter 
+        start-path yang diberikan hingga keseluruhan direktori 
+        di bawahnya. Hasil yang ditampilkan adalah semua file 
+        atau direktori yang memiliki nama sesuai keyword yang diberikan.
         Contoh:
         $ locate /home/user rect
         /home/user/temp/rectangle.png
