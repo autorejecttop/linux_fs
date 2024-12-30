@@ -11,7 +11,7 @@ public class TreeSystem {
         this.children = [];
     }
 
-    public TreeSystem? GetTree(String name, Type type) {
+    public TreeSystem? GetTree(String name, Type type, bool verbose = true) {
         TreeSystem? result = null;
 
         foreach (TreeSystem tree in children) {
@@ -20,7 +20,7 @@ public class TreeSystem {
                 break;
             }
         }
-        if (result == null) {
+        if (result == null && verbose) {
             if (type.Equals(Type.File))
                 ERRMSG.FILE_NOT_FOUND(name);
             else
@@ -47,7 +47,7 @@ public class TreeSystem {
 
         foreach (String path in paths) {
             CSD += $"/{path}";
-            result = result.GetTree(path, Type.Directory);
+            result = result.GetTree(path, Type.Directory, false);
             if (result == null) {
                 ERRMSG.DIR_NOT_FOUND(CSD);
                 break;
