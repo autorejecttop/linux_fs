@@ -24,12 +24,14 @@ class FileSystem {
             if (paths.Length <= 1) {
                 Console.WriteLine($"{arg}: Command invalid.");
             } else {
+                String CSD = " ERR: \"";
                 TreeSystem? targetTree = null;
                 foreach (String path in paths) {
+                    CSD += $"/{path}";
                     if (!path.Equals(paths.Last())) {
                         targetTree = root.GetTree(path, Type.Folder);
                         if (targetTree == null) {
-                            ERRMSG.FOLDER_NOT_FOUND(path);
+                            ERRMSG.DIR_NOT_FOUND(CSD);
                             break;
                         }
                     }
