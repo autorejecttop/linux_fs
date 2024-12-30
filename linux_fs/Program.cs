@@ -3,7 +3,7 @@
     static FileSystem fs = new FileSystem();
     public static void Main() {
 
-        // Dictionary untuk memetakan perintah string ke fungsi yang sesuai
+        // Dictionary untuk memetakan perintah string ke fungsi yang sesuai dari file system
             Dictionary<string, Action<string[]>> commands = new Dictionary<string, Action<string[]>>
             {
                 { "touch", TouchCommand },
@@ -18,5 +18,7 @@
                 { "exit", ExitCommand }
             };
         
+            
+
     }
 }
