@@ -20,10 +20,19 @@ class FileSystem {
     */
     public void touch(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
-            String fileName = arg.Split('/').Last();
-            TreeSystem? parent = root.GoToTree(root, arg);
-            if (parent != null) {
-                helper(fileName, Type.File, parent);
+            String fileName = "";
+            TreeSystem? parent = null;
+            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (paths.Length <= 1) {
+                ERRMSG.INV_COMMAND(arg);
+            } else {
+                fileName = paths.Last();
+                paths = paths.Take(paths.Length - 1).ToArray();
+                parent = root.GoToTree(root, paths);
+                if (parent != null) {
+                    helper(fileName, Type.File, parent);
+                }
             }
         } else {
             helper(arg, Type.File, CWD);
@@ -44,10 +53,19 @@ class FileSystem {
     */
     public void mkdir(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
-            String folderName = arg.Split('/').Last();
-            TreeSystem? parent = root.GoToTree(root, arg);
-            if (parent != null) {
-                helper(folderName, Type.Directory, parent);
+            String dirName = "";
+            TreeSystem? parent = null;
+            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (paths.Length <= 1) {
+                ERRMSG.INV_COMMAND(arg);
+            } else {
+                dirName = paths.Last();
+                paths = paths.Take(paths.Length - 1).ToArray();
+                parent = root.GoToTree(root, paths);
+                if (parent != null) {
+                    helper(dirName, Type.Directory, parent);
+                }
             }
         } else {
             helper(arg, Type.Directory, CWD);
@@ -55,12 +73,13 @@ class FileSystem {
     }
 
     /*  cd <path>
-        Perintah ini digunakan untuk berpindah working directory menuju direktori sesuai parameter path yang diberikan.
+        Perintah ini digunakan untuk berpindah working 
+        directory menuju direktori sesuai parameter path yang diberikan.
         Contoh:
         $ cd /home/user	→ Berpindah ke direktori /home/user
         $ cd ..	→ Berpindah ke direktori parent
     */
-    public void cd() { }
+    public void cd(String arg) { }
 
     /*  ls [<path>]
         Perintah ini digunakan untuk menampilkan isi file dan direktori di dalam suatu direktori. Jika parameter path diberikan, maka yang ditampilkan adalah isi dari direktori sesuai path. Tetapi jika parameter path tidak ada, maka yang ditampilkan adalah isi dari direktori aktif (working directory) saat ini.
@@ -111,13 +130,13 @@ class FileSystem {
     */
     public void locate() { }
 
-    // CUSTOM METHOD //
+    // ========= CUSTOM METHOD ========= //
     public String cwdPath() {
         String result = root.name;
         TreeSystem searchTree = CWD;
 
         while (!searchTree.Equals(root) && searchTree.parent != null) {
-            result += $"/{searchTree.name}";
+            result = $"{result[0]}/{searchTree.name}{result.Remove(0, 1)}";
             searchTree = searchTree.parent;
         }
 
