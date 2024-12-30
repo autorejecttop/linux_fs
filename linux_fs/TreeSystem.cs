@@ -1,11 +1,13 @@
 public class TreeSystem {
     public String name;
     public Type type;
+    public TreeSystem? parent;
     public List<TreeSystem> children;
 
-    public TreeSystem(String name, Type type) {
+    public TreeSystem(String name, Type type, TreeSystem? parent = null) {
         this.name = name;
         this.type = type;
+        this.parent = parent;
         this.children = [];
     }
 
