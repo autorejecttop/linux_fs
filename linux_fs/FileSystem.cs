@@ -22,9 +22,9 @@ class FileSystem {
         if (arg.ElementAt(0).Equals('/')) {
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
             if (paths.Length <= 1) {
-                Console.WriteLine($"{arg}: Command invalid.");
+                ERRMSG.INV_COMMAND(arg);
             } else {
-                String CSD = " ERR: \"";
+                String CSD = "";
                 TreeSystem? targetTree = null;
                 foreach (String path in paths) {
                     CSD += $"/{path}";
