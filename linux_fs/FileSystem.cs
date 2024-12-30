@@ -150,12 +150,36 @@ class FileSystem {
     }
 
     /*  rm <path-to-file/directory>
-        Perintah ini digunakan untuk menghapus file atau direktori sesuai path yang diberikan. Apabila direktori yang dihapus memiliki isi, maka otomatis menghapus seluruh isinya.
+        Perintah ini digunakan untuk menghapus 
+        file atau direktori sesuai path yang 
+        diberikan. Apabila direktori yang 
+        dihapus memiliki isi, maka otomatis 
+        menghapus seluruh isinya.
         Contoh:
         $ rm /home/user/temp
         $ rm /home/user/MyCourse/presentation.pptx
     */
-    public void rm() { }
+    public void rm(String arg) {
+        if (arg.ElementAt(0).Equals('/')) {
+            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            TreeSystem? DIR = root.GoToTree(root, paths.Take(paths.Length - 1).ToArray());
+            if (DIR != null) rm(DIR, paths.Last());
+        } else {
+            rm(CWD, arg);
+        }
+
+        static void rm(TreeSystem DIR, String arg) {
+            TreeSystem? removeFile = DIR.GetTree(arg, Type.File, false);
+            TreeSystem? removeDir = DIR.GetTree(arg, Type.Directory, false);
+            if (removeFile != null) {
+                DIR.children.Remove(removeFile);
+            } else if (removeDir != null) {
+                DIR.children.Remove(removeDir);
+            } else {
+                ERRMSG.FILE_DIR_NOT_FOUND(arg);
+            }
+        }
+    }
 
     /*  mv <source-path> <destination-path>
         Perintah ini digunakan untuk memindahkan file/direktori dari direktori asal ke direktori tujuan. Dimungkinkan juga untuk memindah direktori apabila source-path merupakan direktori.
