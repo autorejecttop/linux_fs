@@ -21,21 +21,12 @@ class FileSystem {
     public void touch(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
             String fileName = arg.Split('/').Last();
-            TreeSystem? parent = root.GoToTree(root, fileName);
+            TreeSystem? parent = root.GoToTree(root, arg);
             if (parent != null) {
-                touch(parent, fileName);
+                helper(fileName, Type.File, parent);
             }
         } else {
-            touch(CWD, arg);
-        }
-
-        static void touch(TreeSystem parent, String filename) {
-            if (parent.IsExist(filename, Type.File)) {
-                ERRMSG.FILE_ALR_EXIST(filename);
-            } else {
-                TreeSystem newFile = new TreeSystem(filename, Type.File, parent);
-                parent.children.Add(newFile);
-            }
+            helper(arg, Type.File, CWD);
         }
     }
 
@@ -54,15 +45,6 @@ class FileSystem {
     public void mkdir(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
         } else { }
-
-        static void mkdir(TreeSystem parent, String dirname) {
-            if (parent.IsExist(dirname, Type.File)) {
-                ERRMSG.FILE_ALR_EXIST(dirname);
-            } else {
-                TreeSystem newFile = new TreeSystem(dirname, Type.Directory, parent);
-                parent.children.Add(newFile);
-            }
-        }
     }
 
     /*  cd <path>
@@ -121,4 +103,16 @@ class FileSystem {
         /home/user/managing-director.txt
     */
     public void locate() { }
+
+    static void helper(String name, Type type, TreeSystem parent) {
+        if (parent.IsExist(name, type)) {
+            if (type.Equals(Type.File))
+                ERRMSG.FILE_ALR_EXIST(name);
+            else
+                ERRMSG.DIR_ALR_EXIST(name);
+        } else {
+            TreeSystem newTree = new TreeSystem(name, type, parent);
+            parent.children.Add(newTree);
+        }
+    }
 }
