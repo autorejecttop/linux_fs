@@ -74,9 +74,12 @@ class FileSystem {
         $ ls
     */
     public void Ls(string? directoryName = null) {
-        if (directoryName == null)
+        if (directoryName == null) {
             foreach (Tree child in CurrentDirectory.Children)
                 Console.WriteLine(child.Name);
+
+            return;
+        }
 
         foreach (Tree child in CurrentDirectory.Children) {
             if (child.Name != directoryName)
@@ -90,6 +93,8 @@ class FileSystem {
             foreach (Tree grandChild in child.Children) {
                 Console.WriteLine(grandChild.Name);
             }
+
+            return;
         }
 
         throw new Exception($"{directoryName}: No such file or directory");
