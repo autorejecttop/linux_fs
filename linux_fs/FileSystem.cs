@@ -44,7 +44,14 @@ class FileSystem {
     */
     public void mkdir(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
-        } else { }
+            String folderName = arg.Split('/').Last();
+            TreeSystem? parent = root.GoToTree(root, arg);
+            if (parent != null) {
+                helper(folderName, Type.Directory, parent);
+            }
+        } else {
+            helper(arg, Type.Directory, CWD);
+        }
     }
 
     /*  cd <path>
