@@ -41,7 +41,7 @@ public class TreeSystem {
         return result;
     }
 
-    public TreeSystem? GoToTree(TreeSystem root, String[] paths) {
+    public TreeSystem? GoToTree(TreeSystem root, String[] paths, bool verbose = true) {
         String CSD = "";
         TreeSystem? result = root;
 
@@ -49,7 +49,7 @@ public class TreeSystem {
             CSD += $"/{path}";
             result = result.GetTree(path, Type.Directory, false);
             if (result == null) {
-                ERRMSG.DIR_NOT_FOUND(CSD);
+                if (verbose) ERRMSG.DIR_NOT_FOUND(CSD);
                 break;
             }
         }
