@@ -1,9 +1,9 @@
 class FileSystem {
-    TreeSystem root;
-    TreeSystem CWD;
+    private TreeSystem root;
+    private TreeSystem CWD;
 
     public FileSystem() {
-        this.root = new TreeSystem("ras@m4tree:~$", Type.Directory);
+        this.root = new TreeSystem("~", Type.Directory);
         this.CWD = root;
     }
 
@@ -111,7 +111,20 @@ class FileSystem {
     */
     public void locate() { }
 
-    static void helper(String name, Type type, TreeSystem parent) {
+    // CUSTOM METHOD //
+    public String cwdPath() {
+        String result = root.name;
+        TreeSystem searchTree = CWD;
+
+        while (!searchTree.Equals(root) && searchTree.parent != null) {
+            result += $"/{searchTree.name}";
+            searchTree = searchTree.parent;
+        }
+
+        return result;
+    }
+
+    void helper(String name, Type type, TreeSystem parent) {
         if (parent.IsExist(name, type)) {
             if (type.Equals(Type.File))
                 ERRMSG.FILE_ALR_EXIST(name);
