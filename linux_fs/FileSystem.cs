@@ -79,7 +79,24 @@ class FileSystem {
         $ cd /home/user	→ Berpindah ke direktori /home/user
         $ cd ..	→ Berpindah ke direktori parent
     */
-    public void cd(String arg) { }
+    public void cd(String arg) {
+        if (arg.Equals("..") && !CWD.Equals(root) && CWD.parent != null) {
+            CWD = CWD.parent;
+        } else if (arg.Equals("~")) {
+            CWD = root;
+        } else if (arg.ElementAt(0).Equals('/')) {
+            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            if (paths.Length > 0) {
+                TreeSystem? tree = root.GoToTree(root, paths);
+                if (tree != null) CWD = tree;
+            } else {
+                ERRMSG.INV_COMMAND(arg);
+            }
+        } else {
+            TreeSystem? tree = CWD.GetTree(arg, Type.Directory);
+            if (tree != null) CWD = tree;
+        }
+    }
 
     /*  ls [<path>]
         Perintah ini digunakan untuk menampilkan isi file dan direktori di dalam suatu direktori. Jika parameter path diberikan, maka yang ditampilkan adalah isi dari direktori sesuai path. Tetapi jika parameter path tidak ada, maka yang ditampilkan adalah isi dari direktori aktif (working directory) saat ini.
