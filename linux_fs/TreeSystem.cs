@@ -40,6 +40,7 @@ public class TreeSystem {
         if (paths.Length <= 1) {
             ERRMSG.INV_COMMAND(arg);
         } else {
+            paths = paths.Take(paths.Length - 1).ToArray();
             foreach (String path in paths) {
                 CSD += $"/{path}";
                 result = result.GetTree(path, Type.Directory);
