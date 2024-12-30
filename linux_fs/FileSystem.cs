@@ -99,12 +99,55 @@ class FileSystem {
     }
 
     /*  ls [<path>]
-        Perintah ini digunakan untuk menampilkan isi file dan direktori di dalam suatu direktori. Jika parameter path diberikan, maka yang ditampilkan adalah isi dari direktori sesuai path. Tetapi jika parameter path tidak ada, maka yang ditampilkan adalah isi dari direktori aktif (working directory) saat ini.
+        Perintah ini digunakan untuk menampilkan 
+        isi file dan direktori di dalam suatu direktori. 
+        Jika parameter path diberikan, maka yang 
+        ditampilkan adalah isi dari direktori sesuai 
+        path. Tetapi jika parameter path tidak ada, 
+        maka yang ditampilkan adalah isi dari direktori 
+        aktif (working directory) saat ini.
         Contoh:
         $ ls MyCourse
         $ ls
     */
-    public void ls() { }
+    public void ls(String arg) {
+        String[] paths = arg.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        if (arg.Equals("ls")) {
+            ls(CWD);
+        } else if (paths.Length == 2) {
+            if (paths[1].ElementAt(0).Equals('/')) {
+                TreeSystem? DIR = root.GoToTree(root, paths);
+                if (DIR != null) ls(DIR);
+            } else {
+                TreeSystem? DIR = CWD.GetTree(paths[1], Type.Directory);
+                if (DIR != null) ls(DIR);
+            }
+        }
+
+        static void ls(TreeSystem DIR) {
+            if (DIR.children.Count > 0) {
+                printDash();
+                Console.WriteLine("TYPE\t\tNAME");
+                printDash();
+                foreach (TreeSystem tree in DIR.children) {
+                    Console.Write($"{tree.type}");
+                    if (tree.type.Equals(Type.File))
+                        Console.Write("\t\t");
+                    else
+                        Console.Write("\t");
+                    Console.Write($"{tree.name}\n");
+                }
+                printDash();
+            }
+        }
+
+        static void printDash() {
+            for (int i = 0; i < 10; i++)
+                Console.Write("─────");
+            Console.WriteLine();
+        }
+    }
 
     /*  rm <path-to-file/directory>
         Perintah ini digunakan untuk menghapus file atau direktori sesuai path yang diberikan. Apabila direktori yang dihapus memiliki isi, maka otomatis menghapus seluruh isinya.
