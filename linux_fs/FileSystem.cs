@@ -1,11 +1,10 @@
 class FileSystem {
-    TreeSystem tree;
+    TreeSystem root;
     TreeSystem CWD;
 
     public FileSystem() {
-        TreeSystem root = new TreeSystem("ras@m4tree:~$", Type.Folder);
-        tree = root;
-        CWD = root;
+        this.root = new TreeSystem("ras@m4tree:~$", Type.Folder);
+        this.CWD = root;
     }
 
     /*  touch <filename>
@@ -19,16 +18,29 @@ class FileSystem {
         $ touch myFile.cs
         $ touch /home/user/Documents/myCode.php
     */
-    public void touch(String value) {
-        String arg = value.Split(' ')[1];
-
-        if (arg.ElementAt(0).Equals("/")) {
-            String[] paths = arg.Split("/");
-            if (paths.Length < 1) {
+    public void touch(String arg) {
+        if (arg.ElementAt(0).Equals('/')) {
+            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            if (paths.Length <= 1) {
                 Console.WriteLine($"{arg}: Command invalid.");
-            } else { }
+            } else {
+                TreeSystem? targetTree = null;
+                foreach (String path in paths) {
+                    if (!path.Equals(paths.Last())) {
+                        targetTree = root.GetTree(path, Type.Folder);
+                        if (targetTree == null) {
+                            ERRMSG.FOLDER_NOT_FOUND(path);
+                            break;
+                        }
+                    }
+                }
+                if (targetTree != null) {
+                    TreeSystem newFile = new TreeSystem(paths.Last(), Type.File, targetTree);
+                    targetTree.children.Add(newFile);
+                }
+            }
         } else {
-            TreeSystem newFile = new TreeSystem(arg, Type.File);
+            TreeSystem newFile = new TreeSystem(arg, Type.File, CWD);
             CWD.children.Add(newFile);
         }
     }
