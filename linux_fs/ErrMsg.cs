@@ -1,7 +1,7 @@
 class ERRMSG {
     public static void INV_COMMAND(String arg) {
-        Console.BackgroundColor = ConsoleColor.Red;
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine($" ERR: \"{arg}\" <- INVALID COMMAND ");
         Console.ResetColor();
     }
@@ -9,14 +9,14 @@ class ERRMSG {
     public static void FILE_ALR_EXIST(String arg) {
         Console.BackgroundColor = ConsoleColor.DarkYellow;
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($" ERR: \"{arg}\" <- FILE ALREADY EXIST ");
+        Console.WriteLine($" ERR: \"{arg}\" <- FILE ALREADY EXISTED ");
         Console.ResetColor();
     }
 
     public static void DIR_ALR_EXIST(String arg) {
         Console.BackgroundColor = ConsoleColor.DarkYellow;
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($" ERR: \"{arg}\" <- DIRECTORY ALREADY EXIST ");
+        Console.WriteLine($" ERR: \"{arg}\" <- DIRECTORY ALREADY EXISTED ");
         Console.ResetColor();
     }
 
