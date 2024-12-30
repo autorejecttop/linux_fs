@@ -135,7 +135,21 @@ class FileSystem {
         $ pwd
         /home/user/MyCourse -> ini adalah contoh output perintah
     */
-    public void pwd() {
+    public void Pwd() {
+        Tree temp = CurrentDirectory;
+
+        if (temp.Parent == null) {
+            Console.WriteLine("/");
+            return;
+        }
+        
+        string pathToWorkingDirectory = "";
+        while (temp.Parent != null) {
+            pathToWorkingDirectory += $"/{temp.Name}";
+            temp = temp.Parent;
+        }
+
+        Console.WriteLine(pathToWorkingDirectory);
     }
 
     /*  locate <start-path> <keyword>
