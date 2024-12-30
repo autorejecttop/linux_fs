@@ -38,7 +38,12 @@ class FileSystem {
         $ mkdir MyCourse
         $ mkdir /home/user/Documents/MyCourse
     */
-    public void mkdir() {
+    public void Mkdir(String newDirectoryName) {
+        Tree newDirectory = new Tree(newDirectoryName);
+
+        newDirectory.Children = new List<Tree>();
+        newDirectory.Parent = CurrentDirectory;
+        CurrentDirectory.Children.Add(newDirectory);
     }
 
     /*  cd <path>
