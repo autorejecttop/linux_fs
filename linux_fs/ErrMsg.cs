@@ -6,6 +6,20 @@ class ERRMSG {
         Console.ResetColor();
     }
 
+    public static void FILE_ALR_EXIST(String arg) {
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($" ERR: \"{arg}\" <- FILE ALREADY EXIST ");
+        Console.ResetColor();
+    }
+
+    public static void DIR_ALR_EXIST(String arg) {
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($" ERR: \"{arg}\" <- DIRECTORY ALREADY EXIST ");
+        Console.ResetColor();
+    }
+
     public static void FILE_NOT_FOUND(String arg) {
         Console.BackgroundColor = ConsoleColor.Red;
         Console.ForegroundColor = ConsoleColor.White;
