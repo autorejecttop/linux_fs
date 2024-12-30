@@ -56,6 +56,18 @@ public class TreeSystem {
 
         return result;
     }
+
+    public String fullPath(TreeSystem root) {
+        String result = root.name;
+        TreeSystem searchTree = this;
+
+        while (!searchTree.Equals(root) && searchTree.parent != null) {
+            result = $"{result[0]}/{searchTree.name}{result.Remove(0, 1)}";
+            searchTree = searchTree.parent;
+        }
+
+        return result;
+    }
 }
 
 public enum Type { File, Directory }
