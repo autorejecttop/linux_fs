@@ -260,7 +260,23 @@ class FileSystem {
         /home/user/MyCourse/Algorithm/CorrectAnswer.docx
         /home/user/managing-director.txt
     */
-    public void locate() { }
+    public void locate(String arg) {
+        String[] args = arg.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        String[] paths = args[0].Split('/', StringSplitOptions.RemoveEmptyEntries);
+        TreeSystem? DIR = root.GoToTree(root, paths);
+
+        if (DIR != null)
+            locate(root, DIR, args[1]);
+
+        static void locate(TreeSystem root, TreeSystem DIR, String name) {
+            foreach (TreeSystem tree in DIR.children) {
+                locate(root, tree, name);
+                if (tree.name.Contains(name)) {
+                    Console.WriteLine(tree.fullPath(root));
+                }
+            }
+        }
+    }
 
     // ========= CUSTOM METHOD ========= //
     public String cwdPath() {
