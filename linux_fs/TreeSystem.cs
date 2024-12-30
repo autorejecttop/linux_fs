@@ -42,7 +42,7 @@ public class TreeSystem {
         } else {
             foreach (String path in paths) {
                 CSD += $"/{path}";
-                result = result.GetTree(path, Type.Folder);
+                result = result.GetTree(path, Type.Directory);
                 if (result == null) {
                     ERRMSG.DIR_NOT_FOUND(CSD);
                     break;
@@ -54,4 +54,4 @@ public class TreeSystem {
     }
 }
 
-public enum Type { File, Folder }
+public enum Type { File, Directory }

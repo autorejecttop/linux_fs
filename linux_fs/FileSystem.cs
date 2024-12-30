@@ -3,7 +3,7 @@ class FileSystem {
     TreeSystem CWD;
 
     public FileSystem() {
-        this.root = new TreeSystem("ras@m4tree:~$", Type.Folder);
+        this.root = new TreeSystem("ras@m4tree:~$", Type.Directory);
         this.CWD = root;
     }
 
@@ -21,20 +21,20 @@ class FileSystem {
     public void touch(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
             String fileName = arg.Split('/').Last();
-            TreeSystem? target = root.GoToTree(root, fileName);
-            if (target != null) {
-                touch(target, fileName);
+            TreeSystem? parent = root.GoToTree(root, fileName);
+            if (parent != null) {
+                touch(parent, fileName);
             }
         } else {
             touch(CWD, arg);
         }
 
-        static void touch(TreeSystem target, String filename) {
-            if (target.IsExist(filename, Type.File)) {
+        static void touch(TreeSystem parent, String filename) {
+            if (parent.IsExist(filename, Type.File)) {
                 ERRMSG.FILE_ALR_EXIST(filename);
             } else {
-                TreeSystem newFile = new TreeSystem(filename, Type.File, target);
-                target.children.Add(newFile);
+                TreeSystem newFile = new TreeSystem(filename, Type.File, parent);
+                parent.children.Add(newFile);
             }
         }
     }
@@ -54,6 +54,15 @@ class FileSystem {
     public void mkdir(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
         } else { }
+
+        static void mkdir(TreeSystem parent, String dirname) {
+            if (parent.IsExist(dirname, Type.File)) {
+                ERRMSG.FILE_ALR_EXIST(dirname);
+            } else {
+                TreeSystem newFile = new TreeSystem(dirname, Type.Directory, parent);
+                parent.children.Add(newFile);
+            }
+        }
     }
 
     /*  cd <path>
