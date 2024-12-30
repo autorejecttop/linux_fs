@@ -1,9 +1,9 @@
 public class Tree {
-    public String Name;
+    public string Name;
     public Tree Parent;
     public List<Tree>? Children;
 
-    public Tree(String name) {
+    public Tree(string name) {
         Name = name;
     }
 }
