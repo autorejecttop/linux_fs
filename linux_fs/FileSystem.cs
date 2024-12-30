@@ -54,10 +54,12 @@ class FileSystem {
     */
     public void Cd(string directoryName) {
         if (directoryName == "..") {
-            CurrentDirectory = CurrentDirectory.Parent;
+            if (CurrentDirectory.Parent != null)
+                CurrentDirectory = CurrentDirectory.Parent;
+
             return;
         }
-        
+
         foreach (Tree child in CurrentDirectory.Children) {
             if (child.Name != directoryName)
                 continue;
@@ -152,7 +154,7 @@ class FileSystem {
             Console.WriteLine("/");
             return;
         }
-        
+
         string pathToWorkingDirectory = "";
         while (temp.Parent != null) {
             pathToWorkingDirectory += $"/{temp.Name}";
