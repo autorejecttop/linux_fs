@@ -53,6 +53,11 @@ class FileSystem {
         $ cd ..	→ Berpindah ke direktori parent
     */
     public void Cd(string directoryName) {
+        if (directoryName == "..") {
+            CurrentDirectory = CurrentDirectory.Parent;
+            return;
+        }
+        
         foreach (Tree child in CurrentDirectory.Children) {
             if (child.Name != directoryName)
                 continue;
