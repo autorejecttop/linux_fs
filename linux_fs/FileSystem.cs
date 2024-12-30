@@ -20,30 +20,23 @@ class FileSystem {
     */
     public void touch(String arg) {
         if (arg.ElementAt(0).Equals('/')) {
-            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
-            if (paths.Length <= 1) {
-                ERRMSG.INV_COMMAND(arg);
-            } else {
-                String CSD = "";
-                TreeSystem? targetTree = null;
-                foreach (String path in paths) {
-                    CSD += $"/{path}";
-                    if (!path.Equals(paths.Last())) {
-                        targetTree = root.GetTree(path, Type.Folder);
-                        if (targetTree == null) {
-                            ERRMSG.DIR_NOT_FOUND(CSD);
-                            break;
-                        }
-                    }
-                }
-                if (targetTree != null) {
-                    TreeSystem newFile = new TreeSystem(paths.Last(), Type.File, targetTree);
+            String fileName = arg.Split('/').Last();
+            TreeSystem? targetTree = root.GoToTree(root, fileName);
+            if (targetTree != null) {
+                if (targetTree.IsExist(fileName, Type.File)) {
+                    ERRMSG.FILE_ALR_EXIST(fileName);
+                } else {
+                    TreeSystem newFile = new TreeSystem(fileName, Type.File, targetTree);
                     targetTree.children.Add(newFile);
                 }
             }
         } else {
-            TreeSystem newFile = new TreeSystem(arg, Type.File, CWD);
-            CWD.children.Add(newFile);
+            if (CWD.IsExist(arg, Type.File)) {
+                ERRMSG.FILE_ALR_EXIST(arg);
+            } else {
+                TreeSystem newFile = new TreeSystem(arg, Type.File, CWD);
+                CWD.children.Add(newFile);
+            }
         }
     }
 
@@ -59,7 +52,10 @@ class FileSystem {
         $ mkdir MyCourse
         $ mkdir /home/user/Documents/MyCourse
     */
-    public void mkdir() { }
+    public void mkdir(String arg) {
+        if (arg.ElementAt(0).Equals('/')) {
+        } else { }
+    }
 
     /*  cd <path>
         Perintah ini digunakan untuk berpindah working directory menuju direktori sesuai parameter path yang diberikan.
