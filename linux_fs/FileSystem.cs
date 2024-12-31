@@ -18,24 +18,29 @@ class FileSystem {
         $ touch myFile.cs
         $ touch /home/user/Documents/myCode.php
     */
-    public void touch(String arg) {
+    public void touch(String arg, Type type = Type.File) {
         if (arg.ElementAt(0).Equals('/')) {
-            String fileName = "";
             TreeSystem? parent = null;
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            String name = paths.Last();
 
-            if (paths.Length <= 1) {
-                CSLMSG.INV_COMMAND(arg);
-            } else {
-                fileName = paths.Last();
-                paths = paths.Take(paths.Length - 1).ToArray();
-                parent = root.GoToTree(root, paths);
-                if (parent != null) {
-                    helper(fileName, Type.File, parent);
-                }
-            }
+            paths = paths.Take(paths.Length - 1).ToArray();
+            parent = root.GoToTree(root, paths);
+            if (parent != null) tc_dir(name, type, parent);
         } else {
-            helper(arg, Type.File, CWD);
+            tc_dir(arg, type, CWD);
+        }
+
+        static void tc_dir(String name, Type type, TreeSystem parent) {
+            if (parent.IsExist(name, type)) {
+                if (type.Equals(Type.File))
+                    CSLMSG.FILE_ALR_EXIST(name);
+                else
+                    CSLMSG.DIR_ALR_EXIST(name);
+            } else {
+                TreeSystem newTree = new TreeSystem(name, type, parent);
+                parent.children.Add(newTree);
+            }
         }
     }
 
@@ -52,24 +57,7 @@ class FileSystem {
         $ mkdir /home/user/Documents/MyCourse
     */
     public void mkdir(String arg) {
-        if (arg.ElementAt(0).Equals('/')) {
-            String dirName = "";
-            TreeSystem? parent = null;
-            String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
-
-            if (paths.Length <= 1) {
-                CSLMSG.INV_COMMAND(arg);
-            } else {
-                dirName = paths.Last();
-                paths = paths.Take(paths.Length - 1).ToArray();
-                parent = root.GoToTree(root, paths);
-                if (parent != null) {
-                    helper(dirName, Type.Directory, parent);
-                }
-            }
-        } else {
-            helper(arg, Type.Directory, CWD);
-        }
+        touch(arg, Type.Directory);
     }
 
     /*  cd <path>
@@ -289,17 +277,5 @@ class FileSystem {
         }
 
         return result;
-    }
-
-    void helper(String name, Type type, TreeSystem parent) {
-        if (parent.IsExist(name, type)) {
-            if (type.Equals(Type.File))
-                CSLMSG.FILE_ALR_EXIST(name);
-            else
-                CSLMSG.DIR_ALR_EXIST(name);
-        } else {
-            TreeSystem newTree = new TreeSystem(name, type, parent);
-            parent.children.Add(newTree);
-        }
     }
 }
