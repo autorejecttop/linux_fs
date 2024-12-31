@@ -1,4 +1,11 @@
 class CSLMSG {
+    public static void RM_ROOT() {
+        Console.BackgroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($" ERR: DELETING ROOT IS ILLEGAL!! ");
+        Console.ResetColor();
+    }
+
     public static void INV_COMMAND(String arg) {
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
@@ -40,5 +47,4 @@ class CSLMSG {
         Console.WriteLine($" ERR: \"{arg}\" <- FILE/DIRECTORY NOT FOUND ");
         Console.ResetColor();
     }
-
 }
