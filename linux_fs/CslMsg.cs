@@ -6,6 +6,20 @@ class CSLMSG {
         Console.ResetColor();
     }
 
+    public static void NAME_ROOT() {
+        Console.BackgroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($" ERR: NAMING FILE/DIRECTORY SAME AS ROOT IS ILLEGAL!! ");
+        Console.ResetColor();
+    }
+
+    public static void ALPH_NUM(String arg) {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine($" ERR: \"{arg}\" <- ONLY ALPHANUMERIC ALLOWED ");
+        Console.ResetColor();
+    }
+
     public static void INV_COMMAND(String arg) {
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
