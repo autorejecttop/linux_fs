@@ -148,6 +148,8 @@ class FileSystem {
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
             TreeSystem? DIR = root.GoToTree(root, paths.Take(paths.Length - 1).ToArray());
             if (DIR != null) rm(DIR, paths.Last());
+        } else if (arg.Equals(root.name)) {
+            CSLMSG.RM_ROOT();
         } else {
             rm(CWD, arg);
         }
