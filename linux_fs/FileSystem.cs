@@ -99,6 +99,8 @@ class FileSystem {
 
         if (arg.Equals("ls")) {
             ls(CWD);
+        } else if (arg.Equals(root.name)) {
+            ls(root);
         } else if (paths[1].ElementAt(0).Equals('/')) {
             TreeSystem? DIR = root.GoToTree(root, paths);
             if (DIR != null) ls(DIR);
