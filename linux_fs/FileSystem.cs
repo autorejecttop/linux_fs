@@ -70,7 +70,7 @@ class FileSystem {
     public void cd(String arg) {
         if (arg.Equals("..") && !CWD.Equals(root) && CWD.parent != null) {
             CWD = CWD.parent;
-        } else if (arg.Equals("~")) {
+        } else if (arg.Equals(root.name)) {
             CWD = root;
         } else if (arg.ElementAt(0).Equals('/')) {
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
