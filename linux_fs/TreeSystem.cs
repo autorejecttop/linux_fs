@@ -22,9 +22,9 @@ public class TreeSystem {
         }
         if (result == null && verbose) {
             if (type.Equals(Type.File))
-                ERRMSG.FILE_NOT_FOUND(name);
+                CSLMSG.FILE_NOT_FOUND(name);
             else
-                ERRMSG.DIR_NOT_FOUND(name);
+                CSLMSG.DIR_NOT_FOUND(name);
         }
 
         return result;
@@ -49,7 +49,7 @@ public class TreeSystem {
             CSD += $"/{path}";
             result = result.GetTree(path, Type.Directory, false);
             if (result == null) {
-                if (verbose) ERRMSG.DIR_NOT_FOUND(CSD);
+                if (verbose) CSLMSG.DIR_NOT_FOUND(CSD);
                 break;
             }
         }

@@ -25,7 +25,7 @@ class FileSystem {
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
             if (paths.Length <= 1) {
-                ERRMSG.INV_COMMAND(arg);
+                CSLMSG.INV_COMMAND(arg);
             } else {
                 fileName = paths.Last();
                 paths = paths.Take(paths.Length - 1).ToArray();
@@ -58,7 +58,7 @@ class FileSystem {
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
             if (paths.Length <= 1) {
-                ERRMSG.INV_COMMAND(arg);
+                CSLMSG.INV_COMMAND(arg);
             } else {
                 dirName = paths.Last();
                 paths = paths.Take(paths.Length - 1).ToArray();
@@ -90,7 +90,7 @@ class FileSystem {
                 TreeSystem? tree = root.GoToTree(root, paths);
                 if (tree != null) CWD = tree;
             } else {
-                ERRMSG.INV_COMMAND(arg);
+                CSLMSG.INV_COMMAND(arg);
             }
         } else {
             TreeSystem? tree = CWD.GetTree(arg, Type.Directory);
@@ -176,7 +176,7 @@ class FileSystem {
             } else if (removeDir != null) {
                 DIR.children.Remove(removeDir);
             } else {
-                ERRMSG.FILE_DIR_NOT_FOUND(arg);
+                CSLMSG.FILE_DIR_NOT_FOUND(arg);
             }
         }
     }
@@ -218,9 +218,9 @@ class FileSystem {
             src.parent = dst;
             dst.children.Add(src);
         } else if (file_src == null && dir_src == null) {
-            ERRMSG.FILE_DIR_NOT_FOUND(paths[0]);
+            CSLMSG.FILE_DIR_NOT_FOUND(paths[0]);
         } else if (dst == null) {
-            ERRMSG.DIR_NOT_FOUND(paths[1]);
+            CSLMSG.DIR_NOT_FOUND(paths[1]);
         }
     }
 
@@ -294,9 +294,9 @@ class FileSystem {
     void helper(String name, Type type, TreeSystem parent) {
         if (parent.IsExist(name, type)) {
             if (type.Equals(Type.File))
-                ERRMSG.FILE_ALR_EXIST(name);
+                CSLMSG.FILE_ALR_EXIST(name);
             else
-                ERRMSG.DIR_ALR_EXIST(name);
+                CSLMSG.DIR_ALR_EXIST(name);
         } else {
             TreeSystem newTree = new TreeSystem(name, type, parent);
             parent.children.Add(newTree);

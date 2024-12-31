@@ -1,4 +1,4 @@
-class ERRMSG {
+class CSLMSG {
     public static void INV_COMMAND(String arg) {
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
