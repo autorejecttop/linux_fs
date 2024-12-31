@@ -255,9 +255,17 @@ class FileSystem {
         /home/user/managing-director.txt
     */
     public void locate(String arg) {
+        TreeSystem? DIR = null;
         String[] args = arg.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         String[] paths = args[0].Split('/', StringSplitOptions.RemoveEmptyEntries);
-        TreeSystem? DIR = root.GoToTree(root, paths);
+
+        if (paths[0].ElementAt(0).Equals('/')) {
+            DIR = root.GoToTree(root, paths);
+        } else if (paths[0].Equals(root.name)) {
+            DIR = root;
+        } else {
+            DIR = CWD.GetTree(paths[0], Type.Directory);
+        }
 
         if (DIR != null)
             locate(root, DIR, args[1]);
