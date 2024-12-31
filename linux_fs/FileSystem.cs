@@ -244,7 +244,7 @@ class FileSystem {
         /home/user/MyCourse -> ini adalah contoh output perintah
     */
     public void pwd() {
-        Console.WriteLine($"{cwdPath()}");
+        Console.Write($"{cwdPath()} ");
     }
 
     /*  locate <start-path> <keyword>
