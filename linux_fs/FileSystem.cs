@@ -193,6 +193,8 @@ class FileSystem {
         if (paths[1].ElementAt(0).Equals('/')) {
             String[] dst_paths = paths[1].Split('/', StringSplitOptions.RemoveEmptyEntries);
             dst = root.GoToTree(root, dst_paths, false);
+        } else if (paths[1].Equals(root.name)) {
+            dst = root;
         } else {
             dst = CWD.GetTree(paths[1], Type.Directory, false);
         }
