@@ -74,12 +74,8 @@ class FileSystem {
             CWD = root;
         } else if (arg.ElementAt(0).Equals('/')) {
             String[] paths = arg.Split('/', StringSplitOptions.RemoveEmptyEntries);
-            if (paths.Length > 0) {
-                TreeSystem? tree = root.GoToTree(root, paths);
-                if (tree != null) CWD = tree;
-            } else {
-                CSLMSG.INV_COMMAND(arg);
-            }
+            TreeSystem? tree = root.GoToTree(root, paths);
+            if (tree != null) CWD = tree;
         } else {
             TreeSystem? tree = CWD.GetTree(arg, Type.Directory);
             if (tree != null) CWD = tree;
@@ -103,14 +99,12 @@ class FileSystem {
 
         if (arg.Equals("ls")) {
             ls(CWD);
-        } else if (paths.Length == 2) {
-            if (paths[1].ElementAt(0).Equals('/')) {
-                TreeSystem? DIR = root.GoToTree(root, paths);
-                if (DIR != null) ls(DIR);
-            } else {
-                TreeSystem? DIR = CWD.GetTree(paths[1], Type.Directory);
-                if (DIR != null) ls(DIR);
-            }
+        } else if (paths[1].ElementAt(0).Equals('/')) {
+            TreeSystem? DIR = root.GoToTree(root, paths);
+            if (DIR != null) ls(DIR);
+        } else {
+            TreeSystem? DIR = CWD.GetTree(paths[1], Type.Directory);
+            if (DIR != null) ls(DIR);
         }
 
         static void ls(TreeSystem DIR) {
@@ -201,10 +195,16 @@ class FileSystem {
 
         if ((file_src != null || dir_src != null) && dst != null) {
             TreeSystem src = file_src ?? dir_src;
-
-            if (delete) rm(paths[0]);
-            src.parent = dst;
-            dst.children.Add(src);
+            if (dst.IsExist(src.name, src.type)) {
+                if (src.Equals(Type.File))
+                    CSLMSG.FILE_ALR_EXIST(src.name);
+                else
+                    CSLMSG.DIR_ALR_EXIST(src.name);
+            } else {
+                if (delete) rm(paths[0]);
+                src.parent = dst;
+                dst.children.Add(src);
+            }
         } else if (file_src == null && dir_src == null) {
             CSLMSG.FILE_DIR_NOT_FOUND(paths[0]);
         } else if (dst == null) {
