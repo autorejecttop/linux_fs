@@ -241,8 +241,16 @@ class FileSystem {
         $ pwd
         /home/user/MyCourse -> ini adalah contoh output perintah
     */
-    public void pwd() {
-        Console.Write($"{cwdPath()} ");
+    public String pwd() {
+        String result = root.name;
+        TreeSystem searchTree = CWD;
+
+        while (!searchTree.Equals(root) && searchTree.parent != null) {
+            result = $"{result[0]}/{searchTree.name}{result.Remove(0, 1)}";
+            searchTree = searchTree.parent;
+        }
+
+        return result;
     }
 
     /*  locate <start-path> <keyword>
@@ -282,18 +290,5 @@ class FileSystem {
                 }
             }
         }
-    }
-
-    // ========= CUSTOM METHOD ========= //
-    public String cwdPath() {
-        String result = root.name;
-        TreeSystem searchTree = CWD;
-
-        while (!searchTree.Equals(root) && searchTree.parent != null) {
-            result = $"{result[0]}/{searchTree.name}{result.Remove(0, 1)}";
-            searchTree = searchTree.parent;
-        }
-
-        return result;
     }
 }
