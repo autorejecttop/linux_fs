@@ -1,4 +1,32 @@
 class CSLMSG {
+    public static void CMD_NOT_FOUND(String arg) {
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine($" ERR: \"{arg}\" <- COMMAND NOT FOUND ");
+        Console.ResetColor();
+    }
+
+    public static void CMD_TMA(String arg) {
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine($" ERR: \"{arg}\" <- TOO MUCH ARGUMENT ");
+        Console.ResetColor();
+    }
+
+    public static void CMD_INCOMPLETE(String arg) {
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine($" ERR: \"{arg}\" <- COMMAND INCOMPLETE ");
+        Console.ResetColor();
+    }
+
+    public static void PATH_INCOMPLETE(String arg) {
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine($" ERR: \"{arg}\" <- PATH INCOMPLETE ");
+        Console.ResetColor();
+    }
+
     public static void RM_ROOT() {
         Console.BackgroundColor = ConsoleColor.Red;
         Console.ForegroundColor = ConsoleColor.White;
@@ -14,29 +42,22 @@ class CSLMSG {
     }
 
     public static void ALPH_NUM(String arg) {
-        Console.BackgroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
         Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine($" ERR: \"{arg}\" <- ONLY ALPHANUMERIC ALLOWED ");
-        Console.ResetColor();
-    }
-
-    public static void INV_COMMAND(String arg) {
-        Console.BackgroundColor = ConsoleColor.White;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine($" ERR: \"{arg}\" <- INVALID COMMAND ");
+        Console.WriteLine($" ERR: \"{arg}\" <- ONLY ALPHANUMERIC IS ALLOWED ");
         Console.ResetColor();
     }
 
     public static void FILE_ALR_EXIST(String arg) {
         Console.BackgroundColor = ConsoleColor.DarkYellow;
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine($" ERR: \"{arg}\" <- FILE ALREADY EXISTED ");
         Console.ResetColor();
     }
 
     public static void DIR_ALR_EXIST(String arg) {
         Console.BackgroundColor = ConsoleColor.DarkYellow;
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine($" ERR: \"{arg}\" <- DIRECTORY ALREADY EXISTED ");
         Console.ResetColor();
     }
