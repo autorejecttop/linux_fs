@@ -41,7 +41,8 @@ class Program {
             Console.ResetColor();
 
             input = Console.ReadLine().Trim();
-            if (!input.Equals("") && Regex.IsMatch(input.Replace("/", string.Empty), @"^[a-zA-Z0-9.~ ]+$"))
+            if (input.ToLower().Equals("exit")) continue;
+            else if (!input.Equals("") && Regex.IsMatch(input.Replace("/", string.Empty), @"^[a-zA-Z0-9.~ ]+$"))
                 Call(input);
             else if (input.Equals("")) continue;
             else CSLMSG.ALPH_NUM(input);
