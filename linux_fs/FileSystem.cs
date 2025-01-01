@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 class FileSystem {
     private TreeSystem root;
     private TreeSystem CWD;
@@ -28,7 +30,10 @@ class FileSystem {
             parent = root.GoToTree(root, paths);
             if (parent != null) tc_dir(name, type, parent);
         } else {
-            tc_dir(arg, type, CWD);
+            if (Regex.IsMatch(arg, @"^[a-zA-Z0-9.]+$"))
+                tc_dir(arg, type, CWD);
+            else
+                CSLMSG.ALPH_NUM(arg);
         }
 
         static void tc_dir(String name, Type type, TreeSystem parent) {
