@@ -3,7 +3,6 @@
 class Program {
     private static FileSystem fs = new();
 
-    //Menampilkan Pesan Welcome kepada user
     static void DisplayWelcomeMessage() {
         Console.WriteLine("┌─────────────────────────────────────────────────────────────────────────────────────────┐");
         Console.WriteLine("│                       Selamat Datang di Aplikasi Sistem File CLI                        │");
@@ -82,7 +81,7 @@ class Program {
                 if (result[0]) fs.cp(result[1]);
                 break;
             case "pwd":
-                fs.pwd();
+                Console.WriteLine(fs.pwd());
                 break;
             case "locate":
                 result = validate(cmd, 3);
