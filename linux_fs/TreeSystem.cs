@@ -41,13 +41,17 @@ public class TreeSystem {
         return result;
     }
 
-    public TreeSystem? GoToTree(TreeSystem root, String[] paths, bool verbose = true) {
+    public TreeSystem? GoToTree(TreeSystem root, String[] paths, Type? targetType = null, bool verbose = true) {
         String CSD = "";
         TreeSystem? result = root;
 
         foreach (String path in paths) {
             CSD += $"/{path}";
-            result = result.GetTree(path, Type.Directory, false);
+            if (path.Equals(paths.Last()))
+                result = result.GetTree(path, targetType ?? Type.Directory, false);
+            else
+                result = result.GetTree(path, Type.Directory, false);
+
             if (result == null) {
                 if (verbose) CSLMSG.DIR_NOT_FOUND(CSD);
                 break;

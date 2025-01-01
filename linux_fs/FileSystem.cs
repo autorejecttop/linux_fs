@@ -162,8 +162,6 @@ class FileSystem {
                 DIR.children.Remove(removeFile);
             } else if (removeDir != null) {
                 DIR.children.Remove(removeDir);
-            } else {
-                CSLMSG.FILE_DIR_NOT_FOUND(arg);
             }
         }
     }
@@ -184,8 +182,8 @@ class FileSystem {
 
         if (paths[0].ElementAt(0).Equals('/')) {
             String[] src_paths = paths[0].Split('/', StringSplitOptions.RemoveEmptyEntries);
-            file_src = root.GoToTree(root, src_paths, false);
-            dir_src = root.GoToTree(root, src_paths, false);
+            file_src = root.GoToTree(root, src_paths, Type.File, false);
+            dir_src = root.GoToTree(root, src_paths, Type.Directory, false);
         } else {
             file_src = CWD.GetTree(paths[0], Type.File, false);
             dir_src = CWD.GetTree(paths[0], Type.Directory, false);
@@ -193,7 +191,7 @@ class FileSystem {
 
         if (paths[1].ElementAt(0).Equals('/')) {
             String[] dst_paths = paths[1].Split('/', StringSplitOptions.RemoveEmptyEntries);
-            dst = root.GoToTree(root, dst_paths, false);
+            dst = root.GoToTree(root, dst_paths, null, false);
         } else if (paths[1].Equals(root.name)) {
             dst = root;
         } else {
