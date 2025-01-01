@@ -1,7 +1,7 @@
 class CSLMSG {
     public static void CMD_NOT_FOUND(String arg) {
-        Console.BackgroundColor = ConsoleColor.DarkYellow;
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.BackgroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($" ERR: \"{arg}\" <- COMMAND NOT FOUND ");
         Console.ResetColor();
     }
