@@ -53,7 +53,7 @@ class Program {
 
     public static void Call(String cmd) {
         List<dynamic> result;
-        switch (cmd.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0]) {
+        switch (cmd.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0].ToLower()) {
             case "touch":
                 result = validate(cmd, 2);
                 if (result[0]) fs.touch(result[1]);
