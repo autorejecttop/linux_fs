@@ -102,6 +102,7 @@ class FileSystem {
         } else if (arg.Equals(root.name)) {
             ls(root);
         } else if (paths[1].ElementAt(0).Equals('/')) {
+            paths = paths[1].Split('/', StringSplitOptions.RemoveEmptyEntries);
             TreeSystem? DIR = root.GoToTree(root, paths);
             if (DIR != null) ls(DIR);
         } else {
